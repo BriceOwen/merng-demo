@@ -1,0 +1,80 @@
+type Query {
+  getPosts: [Post!]!
+  getPost(postId: ID!): Post!
+}
+
+type Mutation {
+  register(registerInput: RegisterInput): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
+  createPost(body: String!): Post
+  deletePost(postId: ID!): Post
+  createComment(postId: ID!, body: String!): Post
+  deleteComment(postId: ID!, commentId: ID!): Post
+  likePost(postId: ID!): Post
+}
+
+# Subscription
+type Subscription {
+  postSubscription: Post!
+}
+
+# Inputs
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+# Types
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  password: String!
+  posts: [Post!]!
+  likes: [Like!]!
+  comments: [Comment!]!
+  createdAt: String
+  updatedAt: String
+}
+
+type Post {
+  id: ID!
+  body: String!
+  author: User!
+  comments: [Comment!]!
+  likes: [Like!]!
+  likeCount: Int!
+  commentCount: Int!
+  createdAt: String
+  updatedAt: String
+}
+
+type Comment {
+  id: ID!
+  body: String!
+  post: Post!
+  author: User!
+  createdAt: String
+  updatedAt: String
+}
+
+type Like {
+  id: ID!
+  post: Post!
+  author: User!
+  createdAt: String
+  updatedAt: String
+}
+
+enum LikeType {
+  LIKE
+  DISLIKE
+  SMILE
+  ANGRY
+}

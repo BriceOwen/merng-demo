@@ -1,0 +1,40 @@
+type User {
+  id: ID! @id
+  username: String! @unique
+  email: String! @unique
+  password: String! @unique
+  posts: [Post!]!
+  comments: [Comment!]!
+  likes: [Like!]!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Post {
+  id: ID! @id
+  body: String!
+  author: User! @relation(link: INLINE)
+  comments: [Comment!]!
+  likes: [Like!]!
+  likeCount: Int! @default(value: 0)
+  commentCount: Int! @default(value: 0)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Comment {
+  id: ID! @id
+  body: String!
+  post: Post!  @relation(link: INLINE)
+  author: User!  @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Like {
+  id: ID! @id
+  post: Post!  @relation(link: INLINE)
+  author: User!  @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
